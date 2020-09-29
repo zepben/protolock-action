@@ -1,0 +1,30 @@
+name: 'Protolock check and update'
+description: 'Checks protolock'
+inputs:
+  PATH:
+    required: true
+  PROTOLOCK_URL:
+    description: "Download link for protolock tarball"
+    default: "https://github.com/nilslice/protolock/releases/download/v0.15.0/protolock.20191021T032920Z.linux-amd64.tgz"
+    required: true
+  COMMIT:
+    description: "Whether the protolock should be committed. Acceptable (case sensitive) values are: true | false"
+    required: false
+    default: false
+runs:
+  using: "composite"
+  steps: 
+    - run: |
+        mkdir -p /protolock 
+        wget -nc -O /protolock/protolock.tgz $PROTOLOCK_URL || true
+        tar xzf /protolock/protolock.tgz
+        cd $PATH
+        ./protolock status
+        if [ "$COMMIT" = "true" ]; then
+          ./protolock commit
+        fi
+      shell: bash
+      env:
+        PATH: ${{ inputs.PATH }}
+        PROTOLOCK_URL: ${{ inputs.PROTOLOCK_URL }}
+        COMMIT: ${{ inputs.COMMIT }}
