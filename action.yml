@@ -18,6 +18,7 @@ runs:
         cd $PROTOPATH
         mkdir -p /protolock 
         wget -nc -O /protolock/protolock.tgz $PROTOLOCK_URL || true
+        ls /protolock
         tar xzf /protolock/protolock.tgz
         ./protolock status
         if [ "$COMMIT" = "true" ]; then
