@@ -15,10 +15,10 @@ runs:
   using: "composite"
   steps: 
     - run: |
+        cd $PROTOPATH
         mkdir -p /protolock 
         wget -nc -O /protolock/protolock.tgz $PROTOLOCK_URL || true
         tar xzf /protolock/protolock.tgz
-        cd $PROTOPATH
         ./protolock status
         if [ "$COMMIT" = "true" ]; then
           ./protolock commit
