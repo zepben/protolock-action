@@ -21,7 +21,9 @@ runs:
     - run: |
         cd $PROTOPATH
         mkdir -p /protolock 
-        wget -nc -O /protolock/protolock.tgz $PROTOLOCK_URL || true
+        if ! [ -f /protolock/protolock.tgz ]; then
+          curl -o /protolock/protolock.tgz $PROTOLOCK_URL
+        fi
         tar xzf /protolock/protolock.tgz
         ./protolock --lockdir $LOCKDIR status
         if [ "$COMMIT" = "true" ]; then
