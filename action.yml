@@ -18,13 +18,13 @@ runs:
         mkdir -p /protolock 
         wget -nc -O /protolock/protolock.tgz $PROTOLOCK_URL || true
         tar xzf /protolock/protolock.tgz
-        cd $PATH
+        cd $PROTOPATH
         ./protolock status
         if [ "$COMMIT" = "true" ]; then
           ./protolock commit
         fi
       shell: bash
       env:
-        PATH: ${{ inputs.PATH }}
+        PROTOPATH: ${{ inputs.PATH }}
         PROTOLOCK_URL: ${{ inputs.PROTOLOCK_URL }}
         COMMIT: ${{ inputs.COMMIT }}
