@@ -8,9 +8,13 @@ inputs:
     default: "https://github.com/nilslice/protolock/releases/download/v0.15.0/protolock.20191021T032920Z.linux-amd64.tgz"
     required: true
   COMMIT:
-    description: "Whether the protolock should be committed. Acceptable (case sensitive) values are: true | false"
+    description: "Whether the protolock changes should be committed back to the repository. Requires git. Values: true | false"
     required: false
     default: false
+  LOCKDIR:
+    description: "The directory containing your proto.lock file"
+    required: false
+    default: .
 runs:
   using: "composite"
   steps: 
@@ -19,12 +23,18 @@ runs:
         mkdir -p /protolock 
         wget -nc -O /protolock/protolock.tgz $PROTOLOCK_URL || true
         tar xzf /protolock/protolock.tgz
-        ./protolock status
+        ./protolock --lockdir $LOCKDIR status
         if [ "$COMMIT" = "true" ]; then
-          ./protolock commit
+          ./protolock --lockdir $LOCKDIR commit
+          git add proto.lock
+          if [[ $(git diff --staged --quiet proto.lock)$? == 1 ]]; then 
+            git commit -m "Update protolock status"
+            git push 
+          fi
         fi
       shell: bash
       env:
         PROTOPATH: ${{ inputs.PATH }}
         PROTOLOCK_URL: ${{ inputs.PROTOLOCK_URL }}
         COMMIT: ${{ inputs.COMMIT }}
+        LOCKDIR: ${{ inputs.LOCKDIR }}
