@@ -22,7 +22,7 @@ runs:
         cd $PROTOPATH
         mkdir -p /protolock 
         if ! [ -f /protolock/protolock.tgz ]; then
-          curl -o /protolock/protolock.tgz $PROTOLOCK_URL
+          curl -L -o /protolock/protolock.tgz $PROTOLOCK_URL
         fi
         tar xzf /protolock/protolock.tgz
         ./protolock --lockdir $LOCKDIR status
