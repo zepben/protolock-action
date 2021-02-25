@@ -12,7 +12,7 @@ inputs:
     required: false
     default: false
   LOCKDIR:
-    description: "The directory containing your proto.lock file"
+    description: "DEPRECATED - use PATH instead. LOCKDIR is broken. The directory containing your proto.lock file"
     required: false
     default: .
 runs:
@@ -25,9 +25,9 @@ runs:
           curl -L -o /protolock/protolock.tgz $PROTOLOCK_URL
         fi
         tar xzf /protolock/protolock.tgz
-        ./protolock --lockdir $LOCKDIR status
+        ./protolock status
         if [ "$COMMIT" = "true" ]; then
-          ./protolock --lockdir $LOCKDIR commit
+          ./protolock commit
           git add proto.lock
           if [[ $(git diff --staged --quiet proto.lock)$? == 1 ]]; then 
             git commit -m "Update protolock status"
