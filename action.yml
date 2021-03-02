@@ -31,6 +31,8 @@ runs:
           git add proto.lock
           if [[ $(git diff --staged --quiet proto.lock)$? == 1 ]]; then 
             git commit -m "Update protolock status"
+            git config user.email "ci@zepben.com"
+            git config user.name "Zepben CI"
             git push 
           fi
         fi
