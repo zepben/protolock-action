@@ -15,6 +15,10 @@ inputs:
     description: "DEPRECATED - use PATH instead. LOCKDIR is broken. The directory containing your proto.lock file"
     required: false
     default: .
+  GITHUB_TOKEN:
+    description: "The token to use for committing - needs admin access"
+    required: true
+    default: 
 runs:
   using: "composite"
   steps: 
@@ -32,7 +36,7 @@ runs:
           if [[ $(git diff --staged --quiet proto.lock)$? == 1 ]]; then 
             git config user.email "ci@zepben.com"
             git config user.name "Zepben CI"
-            git commit -m "Update protolock status"
+            git commit -m "Update protolock status [skip ci]"
             git push 
           fi
         fi
