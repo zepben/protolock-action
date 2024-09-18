@@ -5,7 +5,7 @@ inputs:
     required: true
   PROTOLOCK_URL:
     description: "Download link for protolock tarball"
-    default: "https://github.com/nilslice/protolock/releases/download/v0.15.0/protolock.20191021T032920Z.linux-amd64.tgz"
+    default: "https://github.com/nilslice/protolock/releases/download/v0.17.0/protolock.20231219T195034Z.linux-amd64.tgz"
     required: true
   COMMIT:
     description: "Whether the protolock changes should be committed back to the repository. Requires git. Values: true | false"
